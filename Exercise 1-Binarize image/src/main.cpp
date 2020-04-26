@@ -18,6 +18,9 @@ int main(int argc, char** argv) {
     // TODO: declare some matrices for the images
     // https://docs.opencv.org/4.2.0/d3/d63/classcv_1_1Mat.html
 	Mat inputImage(Size(320,240),CV_8UC3);
+	Mat outputImage(Size(320,240),CV_8UC3);
+	Mat prossedImage(Size(320,240),CV_8UC3);
+
 
     // TODO: load image
     // https://docs.opencv.org/4.2.0/d4/da8/group__imgcodecs.html#ga288b8b3da0892bd651fce07b3bbd3a56
@@ -38,13 +41,18 @@ int main(int argc, char** argv) {
 
     // TODO: call the function that handles the actual image processing
     // It's the function in yours.cpp called processImage
-
+    outputImage = yours::processImage(inputImage);
 
     // TODO: save result
     // https://docs.opencv.org/master/d4/da8/group__imgcodecs.html#gabbc7ef1aa2edfaa87772f1202d67e0ce
+    std::string processedImageFilePath= "result.png";
+    imwrite(processedImageFilePath, outputImage);
 
 
     // TODO: show result and wait for key
     // https://docs.opencv.org/master/d7/dfc/group__highgui.html#ga5628525ad33f52eab17feebcfba38bd7
-
+    std::string prosImagePath = samples::findFile(processedImageFilePath);
+    prossedImage = imread(prosImagePath, IMREAD_COLOR);
+    imshow("Display Result", prossedImage);
+    int s = waitKey(0); // Wait for a keystroke in the window
 }
