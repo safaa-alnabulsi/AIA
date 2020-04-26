@@ -17,9 +17,9 @@ int main(int argc, char** argv) {
 
     // TODO: declare some matrices for the images
     // https://docs.opencv.org/4.2.0/d3/d63/classcv_1_1Mat.html
-	Mat inputImage(Size(320,240),CV_8UC3);
-	Mat outputImage(Size(320,240),CV_8UC3);
-	Mat prossedImage(Size(320,240),CV_8UC3);
+	Mat inputImage;
+	Mat outputImage;
+	Mat processedImage;
 
 
     // TODO: load image
@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
     // TODO: show result and wait for key
     // https://docs.opencv.org/master/d7/dfc/group__highgui.html#ga5628525ad33f52eab17feebcfba38bd7
     std::string prosImagePath = samples::findFile(processedImageFilePath);
-    prossedImage = imread(prosImagePath, IMREAD_COLOR);
-    imshow("Display Result", prossedImage);
+    processedImage = imread(prosImagePath, IMREAD_COLOR);
+    imshow("Display Result", processedImage);
     int s = waitKey(0); // Wait for a keystroke in the window
 }
