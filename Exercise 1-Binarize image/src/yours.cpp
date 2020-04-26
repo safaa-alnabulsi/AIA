@@ -19,3 +19,7 @@ void yours::binarizeImage(const cv::Mat& src, cv::Mat& dst, int thresh) {
 // TODO: Implement processImage
 // use smoothImage from given.hpp
 //   (tests only work if you don't change the default value for size)
+cv::Mat yours::processImage(const cv::Mat& src) {
+	return src;
+}
+
