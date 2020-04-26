@@ -24,8 +24,9 @@
 
      $ make
 
-➔ Run programm $ cd ..
+➔ Run program
 
+    $ cd ..
     $ ./build/app
 
 ## Test
