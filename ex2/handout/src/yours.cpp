@@ -20,7 +20,7 @@ void yours::preprocessImage(cv::Mat& src, cv::Mat& dst, int bin_thresh, int n_er
     // use erosion to get rid of small objects and break connections between leafs
     // use a 3x3 structuring element (cv::Mat::ones(3, 3, CV_8UC1))
 	cv::Mat element = cv::Mat::ones(3, 3, CV_8UC1);
-    cv::erode(temp_dst, dst, element);
+    cv::erode(temp_dst, dst, element, Point(-1,-1), n_erosions);
 }
 
 cv::Mat yours::getFourierDescriptor(const cv::Mat& contour) {
