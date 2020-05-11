@@ -1,7 +1,7 @@
 //
 // Do not change this file.
 //
-#include <catch2/catch.hpp>
+#include "catch.hpp"
 #include "../src/yours.hpp"
 
 using namespace std;

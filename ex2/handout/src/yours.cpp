@@ -4,6 +4,7 @@
 #include "yours.hpp"
 #include "given.hpp"
 
+using namespace cv;
 
 void yours::preprocessImage(cv::Mat& src, cv::Mat& dst, int bin_thresh, int n_erosions) {
 
@@ -13,10 +14,13 @@ void yours::preprocessImage(cv::Mat& src, cv::Mat& dst, int bin_thresh, int n_er
         cv::cvtColor(src, tmp, cv::COLOR_BGR2GRAY);
 
    // get binary image (white foreground, black background)
+	cv::Mat temp_dst = dst.clone(); // deep copy to temporary variable
+	threshold(tmp, temp_dst, bin_thresh, 255, THRESH_BINARY_INV);
 
     // use erosion to get rid of small objects and break connections between leafs
     // use a 3x3 structuring element (cv::Mat::ones(3, 3, CV_8UC1))
-
+	cv::Mat element = cv::Mat::ones(3, 3, CV_8UC1);
+    cv::erode(temp_dst, dst, element);
 }
 
 cv::Mat yours::getFourierDescriptor(const cv::Mat& contour) {

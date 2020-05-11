@@ -14,9 +14,9 @@ int main(int argc, char** argv) {
 
     input query{"./data/query.jpg", cv::imread("./data/query.jpg", 0), 67, 5};
 
-    // cv::Mat output;
-    // yours::preprocessImage(query.img, output, query.bin_thresh, query.n_erosions);
-    // given::showImage(output);
+    cv::Mat output;
+    yours::preprocessImage(query.img, output, query.bin_thresh, query.n_erosions);
+    given::showImage(output);
 
     app(templates, query, 42, 0.1);
 
