@@ -25,8 +25,7 @@ int main(int argc, char** argv) {
     // TODO: load image
     // https://docs.opencv.org/4.2.0/d4/da8/group__imgcodecs.html#ga288b8b3da0892bd651fce07b3bbd3a56
     std::string fname = "./data/test.jpg";
-    std::string image_path = cv::samples::findFile(fname);
-    inputImage = imread(image_path, IMREAD_COLOR);
+    inputImage = imread(fname, IMREAD_COLOR);
 
     // check if image is loaded successfully
     if (!inputImage.data){
@@ -51,8 +50,7 @@ int main(int argc, char** argv) {
 
     // TODO: show result and wait for key
     // https://docs.opencv.org/master/d7/dfc/group__highgui.html#ga5628525ad33f52eab17feebcfba38bd7
-    std::string prosImagePath = cv::samples::findFile(processedImageFilePath);
-    processedImage = imread(prosImagePath, IMREAD_COLOR);
+    processedImage = imread(processedImageFilePath, IMREAD_COLOR);
     imshow("Display Result", processedImage);
     int s = waitKey(0); // Wait for a keystroke in the window
 }
