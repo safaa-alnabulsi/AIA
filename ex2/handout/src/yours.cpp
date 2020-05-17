@@ -95,20 +95,16 @@ int yours::classifyFourierDescriptor(const cv::Mat& fd, const std::vector<cv::Ma
     // loop over templates and find closest, return index
     // use cv::norm as a disctance metric
 	int index = 0;
-	int minIndex = 0;
-	float minDist = 100000;
+	int minIndex = -1;
+	float minDist = 100000000;
     for (auto const& tmp : class_templates){
 //        std::cout << fd.size();
-	    float dist = cv::norm(fd, tmp);
-	    if (dist < minDist){
+	    float dist = cv::norm(fd, tmp.rowRange(0, fd.rows));
+	    if (dist < minDist && dist <= thresh){
 	        minDist = dist;
 	        minIndex = index;
 	    }
 	    index++;
-    }
-
-    if (minDist > thresh){
-           return -1;
     }
 
 	return minIndex;
