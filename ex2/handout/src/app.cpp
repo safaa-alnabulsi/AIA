@@ -11,7 +11,8 @@ struct input {
     int n_erosions;
 };
 
-void app(std::vector<input> templates, input query, int descriptor_length, float detection_thresh) {
+
+cv::Mat app(std::vector<input> templates, input query, int descriptor_length, float detection_thresh) {
     // temporary images and copy of query image to color the result -----------
     cv::Mat temp;
     cv::Mat result = query.img.clone();
@@ -38,7 +39,6 @@ void app(std::vector<input> templates, input query, int descriptor_length, float
             std::cout << "No contour of length " << std::to_string(descriptor_length) << " found for " << t.path << std::endl;
             exit(-1);
         }
-
         template_contours.push_back(contour);
     }
 
@@ -48,10 +48,10 @@ void app(std::vector<input> templates, input query, int descriptor_length, float
     cv::findContours(temp, query_contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_NONE);
 
     // skip those that have not enough elements and color them white
-    for (auto it = query_contours.begin(); it != query_contours.end(); it++) {
-        if (it->rows < descriptor_length) {
-            given::colorImage(result, result, *it, cv::Vec3b(255, 255, 255));
-            query_contours.erase(it);
+    for (int i = 0; i < query_contours.size(); i++) {
+        if (query_contours[i].rows < descriptor_length) {
+            given::colorImage(result, result, query_contours[i], cv::Vec3b(255, 255, 255));
+            query_contours.erase(query_contours.begin()+i);
         }
     }
 
@@ -69,6 +69,11 @@ void app(std::vector<input> templates, input query, int descriptor_length, float
     std::vector<cv::Mat> query_fds;
     for (auto const& c : query_contours)
         query_fds.push_back(yours::getFourierDescriptor(c));
+
+//std:cout << query_fds;
+//	for(int i=0; i<query_fds.size(); ++i)
+//	  std::cout << query_fds[0] ;
+//	  break;
 
     // normalize fourier descriptors ------------------------------------------
     std::vector<cv::Mat> template_fds_normalized;
@@ -93,8 +98,17 @@ void app(std::vector<input> templates, input query, int descriptor_length, float
         }
     }
 
+    // save to disk -----------------------------------------------------------
     // given::showImage(result, "result", 0);
     std::string path = query.path.replace(query.path.length()-4, 4, "_result.jpg");
     std::cout << "Saving result to " << path << std::endl;
     cv::imwrite(path, result);
+
+    // return semantic segmentation -------------------------------------------
+    cv::Mat segmentation(query.img.rows, query.img.cols, CV_8UC3, 0.0);
+    for (int i = 0; i < query_contours.size(); i++)
+        if (classes[i] >= 0)
+            cv::drawContours(segmentation, query_contours, i, given::getColor(classes[i]), -1);
+
+    return segmentation;
 }
